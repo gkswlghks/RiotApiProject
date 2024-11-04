@@ -1,7 +1,7 @@
 function searchSummonerInfo() {
-    const searchName = document.querySelector("#search-bar-name").value;
-    const searchTag = document.querySelector("#search-bar-tag").value;
-    const summonerInfoUrl = `/summoner/info/${encodeURIComponent(searchName)}/${encodeURIComponent(searchTag)}`;
+    const searchBar = document.getElementById("search-bar").value;
+    const [name, tag] = searchBar.split("#");
+    const summonerInfoUrl = `/summoner/info/${encodeURIComponent(name)}/${encodeURIComponent(tag)}`;
     
     // 전적 검색
     fetch(summonerInfoUrl)
