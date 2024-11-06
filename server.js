@@ -28,7 +28,20 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const summonerIdUrl = `${krApi}/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${API_KEY}`;
         const summonerIdResponse = await fetch(summonerIdUrl);
         const summonerIdData = await summonerIdResponse.json();
+        const summonerLevel = summonerIdData.summonerLevel;
         const summonerId = summonerIdData.id;
+        const profileIconId = summonerIdData.profileIcon;
+
+        // 프로필 이미지 URL 생성
+        const profileIconUrl = `http://ddragon.leagueoflegends.com/cdn/13.19.1/img/profileicon/${profileIconId}.png`;
+
+        // 랭크 정보 가져오기
+        const leagueUrl = `${krApi}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`;
+        const leagueResponse = await fetch(leagueUrl);
+        const leagueData = await leagueResponse.json();
+        const rankedInfo = leagueData.find(queue => queue.queueType === 'RANKED_SOLO_5x5');
+        const rank = rankedInfo ? `${rankedInfo.tier} ${rankedInfo.rank}` : 'Unranked';
+
 
         // MATCH-V5에서 매치 ID 목록 
         const matchV5Url = `${asiaApi}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${API_KEY}`;
@@ -42,7 +55,15 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
             return matchDetailResponse.json();
         });
         const matchDetails = await Promise.all(matchDetailsPromises);
-        res.json({ puuid, summonerId, matchDetails });
+        
+        res.json({
+            summonerLevel,
+            profileIconUrl,
+            rank,
+            puuid,
+            summonerId,
+            matchDetails,
+        });
 
     } catch (error) {
         console.error(error);
@@ -50,3 +71,6 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
     }
 
 });
+
+//11월 (프로필 이미지, 챔피언 티어 정리, 소환사 순위 나열) 
+//12월  ==> HTML, CSS 디자인.

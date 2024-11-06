@@ -10,6 +10,10 @@ function searchSummonerInfo() {
             console.log('PUUID:', data.puuid);
             console.log('Summoner ID:', data.summonerId);
             console.log('match', data.matchDetails);
+
+            console.log("닉네임", document.getElementById("search-bar").value);
+            console.log("레벨:", data.summonerLevel);
+            console.log("티어:", data.rank);
             
             data.matchDetails.forEach((match, index) => {
                 if (match.info && match.info.participants.find(p => p.puuid === data.puuid)) {
