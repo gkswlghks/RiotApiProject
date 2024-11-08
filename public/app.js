@@ -3,48 +3,59 @@ function searchSummonerInfo() {
     const [name, tag] = searchBar.split("#");
     const summonerInfoUrl = `/summoner/info/${encodeURIComponent(name)}/${encodeURIComponent(tag)}`;
     
-    // 전적 검색
     fetch(summonerInfoUrl)
         .then(response => response.json())
         .then(data => {
-            console.log('PUUID:', data.puuid);
-            console.log('Summoner ID:', data.summonerId);
-            console.log('match', data.matchDetails);
+            const playerInfo = document.getElementById("summoner-info");
+            const matchResult = document.getElementById("match-result");
+            const championInfo = document.getElementById("champion-info");
+            const summonerRankTable = document.getElementById("summoner-rank-table");
+            championInfo.innerHTML = "";
+            summonerRankTable.innerHTML = "";
+            matchResult.innerHTML = "<h3>매치 정보</h3>"; // 이전 검색 결과 초기화
 
-            console.log("닉네임", document.getElementById("search-bar").value);
-            console.log("레벨:", data.summonerLevel);
-            console.log("티어:", data.rank);
-            
+            // 소환사 정보 표시
+            playerInfo.innerHTML = `
+                <img src="${data.profileIconUrl}" alt="프로필 사진">
+                <p>닉네임: ${searchBar}</p>
+                <p>레벨: ${data.summonerLevel}</p>
+                <p>티어: ${data.rank}</p>
+            `;
+
+            // 매치 정보 표시
             data.matchDetails.forEach((match, index) => {
-                if (match.info && match.info.participants.find(p => p.puuid === data.puuid)) {
-                    let gameMode;
-                    switch (match.info.queueId) {
-                        case 420:
-                            gameMode = '개인/2인 랭크';
-                            break;
-                        case 440:
-                            gameMode = '자유 랭크';
-                            break;
-                        case 450:
-                            gameMode = '칼바람 나락';
-                            break;
-                        default:
-                            gameMode = '일반';
+                // match.info가 정의되어 있는지 확인
+                if (match.info && match.info.participants) {
+                    const participant = match.info.participants.find(p => p.puuid === data.puuid);
+                    
+                    if (participant) {
+                        let gameMode;
+                        switch (match.info.queueId) {
+                            case 420: gameMode = '개인/2인 랭크'; break;
+                            case 440: gameMode = '자유 랭크'; break;
+                            case 450: gameMode = '칼바람 나락'; break;
+                            default: gameMode = '일반'; break;
+                        }
+
+                        // 매치 정보 HTML로 표시
+                        const matchInfo = document.createElement("div");
+                        matchInfo.innerHTML = `
+                            <h4>Match ${participant.win ? '승리' : '패배'} (${gameMode})</h4>
+                            <span>라인: ${participant.lane}</span>
+                            <span>챔피언: ${participant.championName}</span>
+                            <span>KDA: ${participant.kills}/${participant.deaths}/${participant.assists}</span>
+                            <span>골드 획득량: ${participant.goldEarned}</span>
+                            <span>피해량: ${participant.totalDamageDealtToChampions}</span>
+                        `;
+
+                        // `matchResult` 요소에 매치 정보 추가
+                        matchResult.appendChild(matchInfo);
                     }
-                    console.log(`Match ${index + 1} (${gameMode}):`);
-                    const p = match.info.participants.find(p => p.puuid === data.puuid);     
-                    console.log(`라인: ${p.lane}`);
-                    console.log(`챔피언: ${p.championName}`);           
-                    console.log(`KDA: ${p.kills}/${p.deaths}/${p.assists}`);
-                    console.log(`골드 흭득량: ${p.goldEarned}`);
-                    console.log(`피해량: ${p.totalDamageDealtToChampions}`);
-                    if (p.win) {
-                        console.log("승리");
-                    } else {
-                        console.log("패배");
-                    }
+                } else {
+                    console.warn(`Match ${index + 1}에 대한 정보가 없습니다.`);
                 }
             });
         })
         .catch(error => console.error('Error fetching data:', error));
 }
+

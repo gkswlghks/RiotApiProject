@@ -33,7 +33,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const profileIconId = summonerIdData.profileIcon;
 
         // 프로필 이미지 URL 생성
-        const profileIconUrl = `http://ddragon.leagueoflegends.com/cdn/13.19.1/img/profileicon/${profileIconId}.png`;
+        const profileIconUrl = `http://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${profileIconId}.png`;
 
         // 랭크 정보 가져오기
         const leagueUrl = `${krApi}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`;
@@ -72,5 +72,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
 
 });
 
+
+//img 가져오는데 문제 발생, 원인:CORB
 //11월 (프로필 이미지, 챔피언 티어 정리, 소환사 순위 나열) 
 //12월  ==> HTML, CSS 디자인.
