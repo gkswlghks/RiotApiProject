@@ -31,25 +31,38 @@ function searchSummonerInfo() {
                     if (participant) {
                         let gameMode;
                         switch (match.info.queueId) {
-                            case 420: gameMode = '개인/2인 랭크'; break;
-                            case 440: gameMode = '자유 랭크'; break;
-                            case 450: gameMode = '칼바람 나락'; break;
-                            default: gameMode = '일반'; break;
-                        }
+                            case 420: gameMode = '개인/2인 랭크'; 
+                                break;
+                            case 440: gameMode = '자유 랭크'; 
+                                break;
+                            case 450: gameMode = '칼바람 나락'; 
+                                break;
+                            default: gameMode = '일반'; 
+                                break;
+                        }   
 
-                        // 매치 정보 HTML로 표시
                         const matchInfo = document.createElement("div");
                         matchInfo.innerHTML = `
-                            <h4>Match ${participant.win ? '승리' : '패배'} (${gameMode})</h4>
-                            <span>라인: ${participant.lane}</span>
-                            <span>챔피언: ${participant.championName}</span>
-                            <span>KDA: ${participant.kills}/${participant.deaths}/${participant.assists}</span>
-                            <span>골드 획득량: ${participant.goldEarned}</span>
-                            <span>피해량: ${participant.totalDamageDealtToChampions}</span>
+                            <div id="gameInfo">
+                                <h4>Match ${participant.win ? '승리' : '패배'} (${gameMode})</h4>
+                                <span>라인: ${participant.lane}</span>
+                                <span>챔피언: ${participant.championName}</span>
+                                <span>KDA: ${participant.kills}/${participant.deaths}/${participant.assists}</span>
+                                <span>골드 획득량: ${participant.goldEarned}</span>
+                                <span>피해량: ${participant.totalDamageDealtToChampions}</span>
+                            </div>  
                         `;
 
+
+                        if (participant.win) {
+                            matchInfo.style.backgroundColor = 'blue';
+                        } else {
+                            matchInfo.style.backgroundColor = 'red';
+                        }
+                        
                         // `matchResult` 요소에 매치 정보 추가
                         matchResult.appendChild(matchInfo);
+
                     }
                 } else {
                     console.warn(`Match ${index + 1}에 대한 정보가 없습니다.`);
@@ -58,4 +71,3 @@ function searchSummonerInfo() {
         })
         .catch(error => console.error('Error fetching data:', error));
 }
-

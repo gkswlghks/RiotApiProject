@@ -8,6 +8,7 @@ const krApi = 'https://kr.api.riotgames.com';
 app.listen(8080, function(){
     console.log('listening on 8080');
 });
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
