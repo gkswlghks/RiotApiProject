@@ -13,6 +13,8 @@ function searchSummonerInfo() {
             championInfo.innerHTML = "";
             summonerRankTable.innerHTML = "";
             matchResult.innerHTML = "<h3>매치 정보</h3>";
+            console.log(data.summonerIdData);
+            console.log(data.profileIconId);
 
             playerInfo.innerHTML = `
                 <img src="${data.profileIconUrl}" alt="프로필 사진">

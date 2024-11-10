@@ -31,11 +31,10 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const summonerIdData = await summonerIdResponse.json();
         const summonerLevel = summonerIdData.summonerLevel;
         const summonerId = summonerIdData.id;
-        const profileIconId = summonerIdData.profileIcon;
+        const profileIconId = summonerIdData.profileIconId;
 
         // 프로필 이미지 URL 생성
-        const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.22.1/data/ko_KR/${profileIconId}.json`;
-
+        const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${profileIconId}.png`;
 
         // 랭크 정보 가져오기
         const leagueUrl = `${krApi}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`;
@@ -59,6 +58,8 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const matchDetails = await Promise.all(matchDetailsPromises);
         
         res.json({
+            summonerIdData,
+            profileIconId,
             summonerLevel,
             profileIconUrl,
             rank,
