@@ -34,7 +34,8 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const profileIconId = summonerIdData.profileIcon;
 
         // 프로필 이미지 URL 생성
-        const profileIconUrl = `http://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${profileIconId}.png`;
+        const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.22.1/data/ko_KR/${profileIconId}.json`;
+
 
         // 랭크 정보 가져오기
         const leagueUrl = `${krApi}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`;

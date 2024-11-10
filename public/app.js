@@ -12,9 +12,8 @@ function searchSummonerInfo() {
             const summonerRankTable = document.getElementById("summoner-rank-table");
             championInfo.innerHTML = "";
             summonerRankTable.innerHTML = "";
-            matchResult.innerHTML = "<h3>매치 정보</h3>"; // 이전 검색 결과 초기화
+            matchResult.innerHTML = "<h3>매치 정보</h3>";
 
-            // 소환사 정보 표시
             playerInfo.innerHTML = `
                 <img src="${data.profileIconUrl}" alt="프로필 사진">
                 <p>닉네임: ${searchBar}</p>
@@ -59,7 +58,6 @@ function searchSummonerInfo() {
                         } else {
                             matchInfo.style.backgroundColor = 'red';
                         }
-                        
                         // `matchResult` 요소에 매치 정보 추가
                         matchResult.appendChild(matchInfo);
 
