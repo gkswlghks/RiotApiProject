@@ -36,10 +36,14 @@ function searchSummonerInfo() {
                     if (participant) {
                         let gameMode;
                         switch (match.info.queueId) {
-                            case 420: gameMode = '개인/2인 랭크'; break;
-                            case 440: gameMode = '자유 랭크'; break;
-                            case 450: gameMode = '칼바람 나락'; break;
-                            default: gameMode = '일반'; break;
+                            case 420: gameMode = '개인/2인 랭크'; 
+                                break;
+                            case 440: gameMode = '자유 랭크'; 
+                                break;
+                            case 450: gameMode = '칼바람 나락'; 
+                                break;
+                            default: gameMode = '일반'; 
+                                break;
                         }
 
                         const matchInfo = document.createElement("div");
