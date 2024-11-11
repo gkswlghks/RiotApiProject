@@ -6,21 +6,32 @@ function searchSummonerInfo() {
     fetch(summonerInfoUrl)
         .then(response => response.json())
         .then(data => {
-            const playerInfo = document.getElementById("summoner-info");
+            console.log(data.summonerIdData);
+            console.log(data.profileIconId);
+            console.log(data.matchDetails);
+            console.log(data.leagueData);
+
+
+            const summonerInfo = document.getElementById("summoner-info");
+            const summonerRankInfo = document.getElementById("summoner-rank-info");
             const matchResult = document.getElementById("match-result");
             const championInfo = document.getElementById("champion-info");
             const summonerRankTable = document.getElementById("summoner-rank-table");
             championInfo.innerHTML = "";
             summonerRankTable.innerHTML = "";
             matchResult.innerHTML = "<h3>매치 정보</h3>";
-            console.log(data.summonerIdData);
-            console.log(data.profileIconId);
 
-            playerInfo.innerHTML = `
+
+            summonerInfo.innerHTML = `
                 <img src="${data.profileIconUrl}" alt="프로필 사진">
                 <p>닉네임: ${searchBar}</p>
                 <p>레벨: ${data.summonerLevel}</p>
-                <p>티어: ${data.rank}</p>
+
+            `;
+
+            summonerRankInfo.innerHTML =`
+                <p>티어: ${data.rank}LP</p>
+                <p>승/패: ${data.rankRatioWin}/${data.rankRatioLoss}</p>
             `;
 
             // 매치 정보 표시
@@ -45,6 +56,7 @@ function searchSummonerInfo() {
                         const matchInfo = document.createElement("div");
                         matchInfo.innerHTML = `
                             <div id="gameInfo">
+                                <img src="https://ddragon.leagueoflegends.com/cdn/14.22.1/img/champion/${participant.championName}.png" alt="챔피언 사진">
                                 <h4>Match ${participant.win ? '승리' : '패배'} (${gameMode})</h4>
                                 <span>라인: ${participant.lane}</span>
                                 <span>챔피언: ${participant.championName}</span>

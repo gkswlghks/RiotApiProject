@@ -33,7 +33,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const summonerId = summonerIdData.id;
         const profileIconId = summonerIdData.profileIconId;
 
-        // 프로필 이미지 URL 생성
+        //이미지 URL 생성
         const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${profileIconId}.png`;
 
         // 랭크 정보 가져오기
@@ -41,8 +41,9 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const leagueResponse = await fetch(leagueUrl);
         const leagueData = await leagueResponse.json();
         const rankedInfo = leagueData.find(queue => queue.queueType === 'RANKED_SOLO_5x5');
-        const rank = rankedInfo ? `${rankedInfo.tier} ${rankedInfo.rank}` : 'Unranked';
-
+        const rank = rankedInfo ? `${rankedInfo.tier} ${rankedInfo.rank} ${rankedInfo.leaguePoints}` : 'Unranked';
+        const rankRatioWin = rankedInfo ? `${rankedInfo.wins}` : '';
+        const rankRatioLoss = rankedInfo ? `${rankedInfo.losses}` : '';
 
         // MATCH-V5에서 매치 ID 목록 
         const matchV5Url = `${asiaApi}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${API_KEY}`;
@@ -55,9 +56,13 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
             const matchDetailResponse = await fetch(matchDetailUrl);
             return matchDetailResponse.json();
         });
+        
         const matchDetails = await Promise.all(matchDetailsPromises);
         
         res.json({
+            rankRatioWin,
+            rankRatioLoss,
+            leagueData,
             summonerIdData,
             profileIconId,
             summonerLevel,
