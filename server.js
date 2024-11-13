@@ -5,8 +5,8 @@ const API_KEY = 'RGAPI-77fdca5f-2ff0-4804-8f31-f17ab5ae3706';
 const asiaApi = 'https://asia.api.riotgames.com';
 const krApi = 'https://kr.api.riotgames.com';
 
-app.listen(8080, function(){
-    console.log('listening on 8080');
+app.listen(8000, function(){
+    console.log('listening on 8000');
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
