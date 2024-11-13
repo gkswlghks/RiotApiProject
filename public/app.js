@@ -6,10 +6,10 @@ function searchSummonerInfo() {
     fetch(summonerInfoUrl)
         .then(response => response.json())
         .then(data => {
-            console.log(data.summonerIdData);
-            console.log(data.profileIconId);
-            console.log(data.matchDetails);
-            console.log(data.leagueData);
+            console.log("summonerID:", data.summonerIdData);
+            console.log("match:",data.matchDetails);
+            console.log("leagueData:",data.leagueData);
+
 
             const summonerInfo = document.getElementById("summoner-info");
             const summonerRankInfo = document.getElementById("summoner-rank-info");
@@ -20,11 +20,13 @@ function searchSummonerInfo() {
 
             summonerInfo.innerHTML = `
                 <img src="${data.profileIconUrl}" alt="프로필 사진">
+
                 <p>닉네임: ${searchBar}</p>
                 <p>레벨: ${data.summonerLevel}</p>
             `;
 
             summonerRankInfo.innerHTML = `
+                <img src="./Ranked_Emblems/${data.rankIMG}.png" alt="티어 사진">
                 <p>티어: ${data.rank}LP</p>
                 <p>승/패: ${data.rankRatioWin}/${data.rankRatioLoss}</p>
             `;
@@ -47,7 +49,7 @@ function searchSummonerInfo() {
                         }
 
                         const matchInfo = document.createElement("div");
-                        matchInfo.id = `gameInfo${index}`; // 각 매치에 고유 ID 부여
+                        matchInfo.id = `gameInfo${index}`;
                         matchInfo.innerHTML = `
                             <div id="gameInfo">
                                 <img src="https://ddragon.leagueoflegends.com/cdn/14.22.1/img/champion/${participant.championName}.png" alt="챔피언 사진">
@@ -66,12 +68,12 @@ function searchSummonerInfo() {
                         matchInfo.style.backgroundColor = participant.win ? 'blue' : 'red';
                         matchResult.appendChild(matchInfo);
 
-                        // 버튼 클릭 이벤트 추가
+                        // 버튼 클릭 이벤트 => 초기화 후 참가자 10명 정보 추가
                         document.getElementById(`show-players-${index}`).addEventListener("click", () => {
                             const participantsInfoDiv = document.getElementById(`participants-info-${index}`);
                             if (participantsInfoDiv.style.display === "none") {
                                 participantsInfoDiv.style.display = "block";
-                                participantsInfoDiv.innerHTML = ""; // 초기화 후 참가자 10명 정보 추가
+                                participantsInfoDiv.innerHTML = ""; 
                                 
                                 match.info.participants.forEach((participant) => {
                                     const playerInfo = document.createElement("div");
@@ -95,5 +97,5 @@ function searchSummonerInfo() {
                 }
             });
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => alert('사용자 정보가 없습니다.'));
 }

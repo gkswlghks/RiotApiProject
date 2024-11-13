@@ -10,6 +10,7 @@ app.listen(8080, function(){
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -42,6 +43,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const leagueData = await leagueResponse.json();
         const rankedInfo = leagueData.find(queue => queue.queueType === 'RANKED_SOLO_5x5');
         const rank = rankedInfo ? `${rankedInfo.tier} ${rankedInfo.rank} ${rankedInfo.leaguePoints}` : 'Unranked';
+        const rankIMG = rankedInfo.tier;
         const rankRatioWin = rankedInfo ? `${rankedInfo.wins}` : '';
         const rankRatioLoss = rankedInfo ? `${rankedInfo.losses}` : '';
 
@@ -60,6 +62,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const matchDetails = await Promise.all(matchDetailsPromises);
         
         res.json({
+            rankIMG,
             rankRatioWin,
             rankRatioLoss,
             leagueData,
@@ -81,6 +84,5 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
 });
 
 
-//img 가져오는데 문제 발생, 원인:CORB
-//11월 (프로필 이미지, 챔피언 티어 정리, 소환사 순위 나열) 
+//11월 (챔피언 티어 정리, 소환사 순위 나열) 
 //12월  ==> HTML, CSS 디자인.
