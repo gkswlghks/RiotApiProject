@@ -9,7 +9,7 @@ function searchSummonerInfo() {
             console.log("summonerID:", data.summonerIdData);
             console.log("match:",data.matchDetails);
             console.log("leagueData:",data.leagueData);
-
+            document.getElementById("searchBar").innerHTML = '';
             const topSummoners = document.getElementById("summoner-rank-table");
             const summonerInfo = document.getElementById("summoner-info");
             const summonerRankInfo = document.getElementById("summoner-rank-info");
