@@ -11,18 +11,18 @@ app.listen(8000, function(){
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// HTML 파일을 렌더링하는 엔드포인트
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+//메인 화면에서 소환사 순위 나열(상위 10명)
 app.get('/main', async (req, res) => {   
     try {
         const leagueEXPUrl = `${krApi}/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=1&api_key=${API_KEY}`;
         const leagueEXPResponse = await fetch(leagueEXPUrl);
         const leagueEXPData = await leagueEXPResponse.json();
 
-        // 처음 5명의 소환사 데이터만 선택
+        // 처음 10명의 소환사 데이터만 선택
         const topSummoners = leagueEXPData.slice(0, 10);
 
         // 각 소환사에 대해 추가 정보 가져오기
@@ -76,7 +76,6 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const summonerId = summonerIdData.id;
         const profileIconId = summonerIdData.profileIconId;
 
-        //이미지 URL 생성
         const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${profileIconId}.png`;
 
         // 랭크 정보 가져오기
@@ -125,6 +124,4 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
 
 });
 
-
-//11월 (챔피언 티어 정리, 소환사 순위 나열) 
 //12월  ==> HTML, CSS 디자인.

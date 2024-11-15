@@ -108,9 +108,9 @@ function mainInfo() {
     fetch('/main')  
         .then(response => response.json())
         .then(data => {
-            console.log("Received Data:", data); // 서버에서 전달받은 데이터 확인
             document.getElementById("summoner-rank").style.backgroundColor = 'black'
             const topSummoners = document.getElementById("summoner-rank-table");
+
             // 데이터가 존재하고 배열 형태일 경우에만 map을 실행
             if (data.topSummonerDetails && Array.isArray(data.topSummonerDetails)) {
                 topSummoners.innerHTML = data.topSummonerDetails.map(summonerDetail => `
@@ -130,6 +130,3 @@ function mainInfo() {
 }
 
 mainInfo();
-
-
-
