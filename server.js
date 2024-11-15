@@ -11,8 +11,50 @@ app.listen(8000, function(){
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// HTML 파일을 렌더링하는 엔드포인트
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/main', async (req, res) => {   
+    try {
+        const leagueEXPUrl = `${krApi}/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=1&api_key=${API_KEY}`;
+        const leagueEXPResponse = await fetch(leagueEXPUrl);
+        const leagueEXPData = await leagueEXPResponse.json();
+
+        // 처음 5명의 소환사 데이터만 선택
+        const topSummoners = leagueEXPData.slice(0, 10);
+
+        // 각 소환사에 대해 추가 정보 가져오기
+        const topSummonerDetails = await Promise.all(topSummoners.map(async (summoner) => {
+            const summonerIdUrl = `${krApi}/lol/summoner/v4/summoners/${summoner.summonerId}?api_key=${API_KEY}`;
+            const summonerIdResponse = await fetch(summonerIdUrl);
+            const summonerIdData = await summonerIdResponse.json();
+
+            const puuid = summonerIdData.puuid;
+            const summonerInfoUrl = `${asiaApi}/riot/account/v1/accounts/by-puuid/${puuid}?api_key=${API_KEY}`; 
+            const summonerInfoResponse = await fetch(summonerInfoUrl);
+            const summonerInfoData = await summonerInfoResponse.json();
+
+            const summonerEXPIdUrl = `${krApi}/lol/summoner/v4/summoners/by-puuid/${puuid}?api_key=${API_KEY}`;
+            const summonerEXPIdResponse = await fetch(summonerEXPIdUrl);
+            const summonerEXPIdData = await summonerEXPIdResponse.json();
+            const profileIconId = summonerEXPIdData.profileIconId;
+
+            return {
+                profileIconId,
+                leagueInfo: summoner,
+                summonerInfo: summonerInfoData
+            };
+        }));
+
+        res.json({ 
+            topSummonerDetails,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to retrieve data' });
+    }
 });
 
 // 전적검색 버튼 동작 -> PUUID, SummonerID, 소환사 매치 정보 반환

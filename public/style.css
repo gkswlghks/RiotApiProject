@@ -2,3 +2,15 @@
     margin-top: 10px;
     background-color: none;
 }
+
+.top-summoner {
+    background-color: blanchedalmond;
+    margin-top: 10px;
+}
+
+#summoner-rank {
+    color: white;
+}
+#summoner-rank-table {
+    color: black;
+}

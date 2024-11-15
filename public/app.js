@@ -10,12 +10,16 @@ function searchSummonerInfo() {
             console.log("match:",data.matchDetails);
             console.log("leagueData:",data.leagueData);
 
-
+            const topSummoners = document.getElementById("summoner-rank-table");
             const summonerInfo = document.getElementById("summoner-info");
             const summonerRankInfo = document.getElementById("summoner-rank-info");
             const matchResult = document.getElementById("match-result");
             const championInfo = document.getElementById("champion-info");
+            document.getElementById("summoner-rank").style.backgroundColor = ''
+            document.getElementById("summoner-rank").innerHTML = ''
             championInfo.innerHTML = "";
+            topSummoners.innerHTML = '';
+            
             matchResult.innerHTML = "<h3>매치 정보</h3>";
 
             summonerInfo.innerHTML = `
@@ -99,3 +103,33 @@ function searchSummonerInfo() {
         })
         .catch(error => alert('사용자 정보가 없습니다.'));
 }
+
+function mainInfo() { 
+    fetch('/main')  
+        .then(response => response.json())
+        .then(data => {
+            console.log("Received Data:", data); // 서버에서 전달받은 데이터 확인
+            document.getElementById("summoner-rank").style.backgroundColor = 'black'
+            const topSummoners = document.getElementById("summoner-rank-table");
+            // 데이터가 존재하고 배열 형태일 경우에만 map을 실행
+            if (data.topSummonerDetails && Array.isArray(data.topSummonerDetails)) {
+                topSummoners.innerHTML = data.topSummonerDetails.map(summonerDetail => `
+                    <div class="top-summoner">
+                        <img src="https://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${summonerDetail.profileIconId}.png" alt="소환사 사진">
+                        <p></p>
+                        <span>소환사 이름: ${summonerDetail.summonerInfo.gameName}</span>
+                        <span>티어: ${summonerDetail.leagueInfo.tier} ${summonerDetail.leagueInfo.rank}</span>
+                        <span>LP: ${summonerDetail.leagueInfo.leaguePoints}</span>
+                    </div>
+                `).join('');
+            } else {
+                topSummoners.innerHTML = "<p>소환사 데이터를 불러올 수 없습니다.</p>";
+            }
+        })
+        .catch(error => console.log('페이지 오류:', error));
+}
+
+mainInfo();
+
+
+
