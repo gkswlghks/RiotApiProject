@@ -7,20 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <a href="./index.html">로비</a>
-        <div class="search-bar" id="searchBar">
-            <input id="search-bar" type="text" placeholder="이름#태그 (예: Hide on bush#KR1)">
-            <button onclick="searchSummonerInfo()">검색</button>
-        </div>
-        <div id="champion-info"></div>
-        <div id="summoner-rank">
+    <div class="main-container">
+        <header>
+            <h1><a href="http://localhost:8000/">LOL.GG</a></h1>
+            <div class="search-bar" id="searchBar">
+                <input id="search-bar" type="text" placeholder="이름#태그 (예: Hide on bush#KR1)">
+                <button onclick="searchBarSummonerInfo()">검색</button>
+            </div>
+        </header>
+
+        <section class="rank-section" id="summoner-rank">
             <h2>상위 10위 랭커</h2>
-            <div id="summoner-rank-table"></div>
-        </div>
-        <div id="summoner-info"></div>
-        <div id="summoner-rank-info"></div>
-        <div id="match-result"></div>
+            <div class="rank-table-wrapper">
+                <table class="rank-table">
+                    <thead>
+                        <tr>
+                            <th>프로필</th>
+                            <th>소환사 이름</th>
+                            <th>티어</th>
+                            <th>LP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summoner-rank-table">
+                        <!-- 데이터가 동적으로 들어갑니다. -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="summoner-info-display">    
+            <div class="summoner-info">
+                <div class="summoner-info-style" id="summoner-info">
+                    <!-- 데이터가 동적으로 들어갑니다. -->
+                </div>
+                <div class="summoner-info-style" id="summoner-rank-info">
+                    <!-- 데이터가 동적으로 들어갑니다. -->
+                </div>
+            </div>
+            <div id="match-result">
+                <!-- 데이터가 동적으로 들어갑니다. -->
+            </div>
+        </section>
     </div>
     <script src="/app.js"></script>
 </body>
