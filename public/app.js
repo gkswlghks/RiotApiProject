@@ -22,7 +22,7 @@ function searchSummonerInfo(summonerName, summonerTag) {
         .then(data => {
             // 데이터 확인용
             // console.log("summonerID:", data.summonerIdData);
-            // console.log("match:",data.matchDetails);
+             console.log("match:",data.matchDetails);
             // console.log("leagueData:",data.leagueData);
 
             let today = new Date();   
@@ -138,7 +138,7 @@ function searchSummonerInfo(summonerName, summonerTag) {
                                     });
                                     playerInfo.innerHTML = `
                                         <img src="https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/${participant.championName}.png" alt="챔피언 사진">
-                                        <h4>${participant.summonerName}</h4>
+                                        <h4>${participant.summonerName ? participant.summonerName : participant.riotIdGameName}</h4>
                                         <span>챔피언: ${participant.championName}</span>
                                         <span>레벨: ${participant.champLevel}</span>
                                         <span>KDA: ${participant.kills}/${participant.deaths}/${participant.assists}</span>

@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 //메인 화면에서 소환사 순위 나열(상위 10명)
 app.get('/main', async (req, res) => {   
     try {
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         const leagueEXPUrl = `${krApi}/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=1&api_key=${API_KEY}`;
         const leagueEXPResponse = await fetch(leagueEXPUrl);
         const leagueEXPData = await leagueEXPResponse.json();
@@ -27,7 +28,8 @@ app.get('/main', async (req, res) => {
 
         // 각 소환사에 대해 추가 정보 가져오기
         //Promise.all은  여러 비동기 작업을 병렬로 실행하고, 모든 작업이 완료되면 그 결과를 반환
-        const topSummonerDetails = await Promise.all(topSummoners.map(async (summoner) => {
+        const topSummonerDetails = await Promise.all(topSummoners.map(async (summoner, index) => {
+            await delay(index * 80);
             const summonerIdUrl = `${krApi}/lol/summoner/v4/summoners/${summoner.summonerId}?api_key=${API_KEY}`;
             const summonerIdResponse = await fetch(summonerIdUrl);
             const summonerIdData = await summonerIdResponse.json();
@@ -41,7 +43,7 @@ app.get('/main', async (req, res) => {
             const summonerEXPIdResponse = await fetch(summonerEXPIdUrl);
             const summonerEXPIdData = await summonerEXPIdResponse.json();
             const profileIconId = summonerEXPIdData.profileIconId;
-
+            
             return {
                 profileIconId,
                 leagueInfo: summoner,
@@ -63,6 +65,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
     const { name, tag } = req.params;
 
     try {
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         // PUUID
         const summonerPuuidUrl = `${asiaApi}/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(name)}/${encodeURIComponent(tag)}?api_key=${API_KEY}`;
         const puuidResponse = await fetch(summonerPuuidUrl);
@@ -94,7 +97,8 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const matchIds = await matchV5Response.json();
 
         // 각 매치 ID에 대한 상세 정보 
-        const matchDetailsPromises = matchIds.map(async (matchId) => {
+        const matchDetailsPromises = matchIds.map(async (matchId, index) => {
+            await delay(index * 80);
             const matchDetailUrl = `${asiaApi}/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`;
             const matchDetailResponse = await fetch(matchDetailUrl);
             return matchDetailResponse.json();
