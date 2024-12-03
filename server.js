@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 //메인 화면에서 소환사 순위 나열(상위 10명)
 app.get('/main', async (req, res) => {   
     try {
+        //delay -> API 과부화 방지
         const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         const leagueEXPUrl = `${krApi}/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=1&api_key=${API_KEY}`;
         const leagueEXPResponse = await fetch(leagueEXPUrl);
@@ -65,6 +66,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
     const { name, tag } = req.params;
 
     try {
+        //delay -> API 과부화 방지
         const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         // PUUID
         const summonerPuuidUrl = `${asiaApi}/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(name)}/${encodeURIComponent(tag)}?api_key=${API_KEY}`;
