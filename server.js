@@ -26,7 +26,6 @@ app.get('/main', async (req, res) => {
         const topSummoners = leagueEXPData.slice(0, 10);
 
         // 각 소환사에 대해 추가 정보 가져오기
-        //async와 await를 사용하여 비동기 작업이 순차적으로 실행되도록 처리
         //Promise.all은  여러 비동기 작업을 병렬로 실행하고, 모든 작업이 완료되면 그 결과를 반환
         const topSummonerDetails = await Promise.all(topSummoners.map(async (summoner) => {
             const summonerIdUrl = `${krApi}/lol/summoner/v4/summoners/${summoner.summonerId}?api_key=${API_KEY}`;
@@ -77,8 +76,7 @@ app.get('/summoner/info/:name/:tag', async (req, res) => {
         const summonerLevel = summonerIdData.summonerLevel;
         const summonerId = summonerIdData.id;
         const profileIconId = summonerIdData.profileIconId;
-
-        const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/profileicon/${profileIconId}.png`;
+        const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/14.23.1/img/profileicon/${profileIconId}.png`;
 
         // 랭크 정보 가져오기
         const leagueUrl = `${krApi}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`;
