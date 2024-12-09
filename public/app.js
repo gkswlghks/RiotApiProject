@@ -22,7 +22,7 @@ function searchSummonerInfo(summonerName, summonerTag) {
         .then(data => {
             // 데이터 확인용
             // console.log("summonerID:", data.summonerIdData);
-             console.log("match:",data.matchDetails);
+            // console.log("match:",data.matchDetails);
             // console.log("leagueData:",data.leagueData);
 
             let today = new Date();   
