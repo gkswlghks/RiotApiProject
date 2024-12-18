@@ -5,6 +5,7 @@
 [RiotAPI](https://developer.riotgames.com/)
 [ddrgon](https://developer.riotgames.com/docs/lol)
 [Expressjs](https://expressjs.com/en/guide/routing.html)
+[Nodejs](https://nodejs.org/en)
 ## 사용방법
 ### Riot API를 넣어준다.
 ### npm 모듈을 설치 해준다.
