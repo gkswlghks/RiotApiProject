@@ -265,7 +265,7 @@ header h1 a {
 }
 
 .participant-card {
-    width: calc(20% - 50px); /* 5개씩 배치 */
+    width: calc(20% - 50px);
     background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
     border-radius: 10px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5), -5px -5px 15px rgba(50, 50, 70, 0.3);
