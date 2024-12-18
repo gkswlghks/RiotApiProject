@@ -1,4 +1,4 @@
-//검색바의 정보를 가져오는 함수
+
 function searchBarSummonerInfo() {
     const searchBar = document.getElementById("search-bar").value;
     const splitInput = searchBar.split("#");
@@ -8,13 +8,12 @@ function searchBarSummonerInfo() {
 }
 
 
-//메인화면 소환사 랭킹에서 정보를 가져오는 함수
 function topSummonerInfo(name, tag) {
     // console.log(name, tag);
     searchSummonerInfo(name, tag);
 }
 
-//소환사 정보를 찾고, html을 작성하는 함수
+
 function searchSummonerInfo(summonerName, summonerTag) {
     const summonerInfoUrl = `/summoner/info/${encodeURIComponent(summonerName)}/${encodeURIComponent(summonerTag)}`; 
     fetch(summonerInfoUrl)
@@ -63,13 +62,10 @@ function searchSummonerInfo(summonerName, summonerTag) {
                 </span>
             `;
 
-            // matchDetails 배열을 순회하며 각 매치에 대해 처리
+
             data.matchDetails.forEach((match, index) => {
-                // 매치 정보에 참가자들이 있는지 확인
                 if (match.info && match.info.participants) {
-                    // 현재 사용자의 PUUID에 해당하는 참가자 찾기
                     const participant = match.info.participants.find(p => p.puuid === data.puuid);
-                    // 참가자가 존재하면 매치 정보 처리
                     if (participant) {
                         let gameMode;
                         switch (match.info.queueId) {
@@ -111,25 +107,23 @@ function searchSummonerInfo(summonerName, summonerTag) {
                         matchInfo.style.borderRadius = '10px';
                         matchResult.appendChild(matchInfo);
 
-                        // 버튼 클릭 이벤트 => 초기화 후 참가자 10명 정보 추가
                         document.getElementById(`show-players-${index}`).addEventListener("click", () => {
                             const participantsInfoDiv = document.getElementById(`participants-info-${index}`);
                         
-                            // 내용 표시/숨김 처리
+
                             if (participantsInfoDiv.style.display === "none") {
                                 participantsInfoDiv.style.display = "block";
                                 participantsInfoDiv.innerHTML = "";
                         
-                                // 블루팀과 레드팀 섹션 생성
+
                                 const blueTeamDiv = document.createElement("div");
                                 blueTeamDiv.classList.add("team-container", "blue-team-section");
                         
                                 const redTeamDiv = document.createElement("div");
                                 redTeamDiv.classList.add("team-container", "red-team-section");
-                        
-                                // 각 참가자 정보를 분리하여 처리
+
                                 match.info.participants.forEach((participant) => {
-                                    // 플레이어 정보를 담을 카드 생성
+
                                     const playerInfo = document.createElement("div");
                                     playerInfo.classList.add("participant-card", participant.win ? "blue-team" : "red-team");
                                     playerInfo.addEventListener('click', () => {
@@ -146,7 +140,7 @@ function searchSummonerInfo(summonerName, summonerTag) {
                                         <span>피해량: ${participant.totalDamageDealtToChampions}</span>
                                     `;
                         
-                                    // 각 팀에 맞는 섹션에 추가
+
                                     if (participant.win) {
                                         blueTeamDiv.appendChild(playerInfo);
                                     } else {
@@ -154,7 +148,7 @@ function searchSummonerInfo(summonerName, summonerTag) {
                                     }
                                 });
                         
-                                // 섹션을 부모 컨테이너에 추가
+
                                 participantsInfoDiv.appendChild(blueTeamDiv);
                                 participantsInfoDiv.appendChild(redTeamDiv);
                         
@@ -170,12 +164,11 @@ function searchSummonerInfo(summonerName, summonerTag) {
 }
 
 
-//메인화면 소환사 랭킹 함수
+
 function mainInfo() { 
     fetch('/main')  
         .then(response => response.json())
         .then(data => {
-            // 이전 데이터 초기화, 변수 선언
             let today = new Date(); 
             document.getElementById("summoner-rank").innerHTML += `${today}`;
             document.querySelector(".summoner-info-display").style.display = "none";
@@ -184,7 +177,6 @@ function mainInfo() {
             //데이터 확인용
             // console.log(data.topSummonerDetails);
 
-            // 데이터가 존재하고 배열 형태일 경우에만 map을 실행
             if (data.topSummonerDetails && Array.isArray(data.topSummonerDetails)) {
                 topSummoners.innerHTML = data.topSummonerDetails.map(summonerDetail => `
                     <tr onclick="topSummonerInfo('${summonerDetail.summonerInfo.gameName}', '${summonerDetail.summonerInfo.tagLine}')">
