@@ -1,6 +1,6 @@
 # RiotAPI를 활용한 전적검색 사이트
 #### nodejs를 활용한 리그 오브 레전드 전적 검색 사이트
-#### 본 프로젝트는 학습용입니다.
+#### 본 프로젝트는 학습용입니다.(2024/12)
 #### 관련문서 
 [RiotAPI](https://developer.riotgames.com/)
 [ddrgon](https://developer.riotgames.com/docs/lol)
