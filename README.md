@@ -1,9 +1,12 @@
 # RiotAPI를 활용한 전적검색 사이트
-nodejs를 활용한 리그 오브 레전드 플레이어들이 자신의 전적을 쉽게 검색할 수 있는 웹 페이지 제작
-DB는 없으므로 필요시 적용하세요
+#### nodejs를 활용한 리그 오브 레전드 전적 검색 사이트
+#### 상업용으로 사용하지마세요. 본 프로젝트는 학습용입니다.
+#### 관련문서 
 [RiotAPI](https://developer.riotgames.com/)
 [ddrgon](https://developer.riotgames.com/docs/lol)
+[Expressjs](https://expressjs.com/en/guide/routing.html)
 ## 사용방법
+### Riot API를 넣어준다.
 ### npm 모듈을 설치 해준다.
 ```
 npm install 
@@ -16,7 +19,7 @@ or
 ```
 node server.js
 ```
-http://localhost:8000 으로 접속
+localhost로 접속.
 
 ## 구조
 riotapiproject/
